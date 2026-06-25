@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS adoptions (
     pet_id INT NOT NULL,
     adoption_date DATE NOT NULL,
     CONSTRAINT pk_adoptions PRIMARY KEY (id),
+    CONSTRAINT uq_adoptions_user_pet UNIQUE (user_id, pet_id),
     CONSTRAINT fk_adoptions_users FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT fk_adoptions_pets FOREIGN KEY (pet_id) REFERENCES pets(id) ON DELETE CASCADE
 );

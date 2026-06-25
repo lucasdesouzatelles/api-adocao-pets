@@ -1,8 +1,8 @@
 USE pets_db;
 
 INSERT INTO users (name, email, password, phone, role) VALUES 
-('Admin', 'admin@email.com', 'senha_admin_hash', '54111111111', 'admin'),
-('Alberto Almeida', 'AAlmeida1337mitinho@email.com', 'senha_user_hash', '54222222222', 'adopter');
+('Admin', 'admin@email.com', '$2b$10$yqfo0sO7q/BeZQ2PW4ep9uQMc78M.J3Dz4JXvPbG9TDIIE2ddajBO', '54111111111', 'admin'),
+('Alberto Almeida', 'AAlmeida1337mitinho@email.com', '$2b$10$BZim0ysP72TCXU8jVGOGfeLGJJ02hlxq9.9sKDLWK19vuywkGe9Ay', '54222222222', 'adopter');
 
 INSERT INTO pets (name, age, species, size, status, description) VALUES 
 ('Terror', 12, 'dog', 'medium', 'available', 'O melhor amigo do seu dono, apenas.'),
