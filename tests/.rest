@@ -1,0 +1,133 @@
+@baseUrl = http://localhost:3000
+
+### Health check
+GET {{baseUrl}}/
+
+### Login admin
+# @name loginAdmin
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+    "email": "admin@email.com",
+    "password": "admin123"
+}
+
+### Login adopter
+# @name loginAdopter
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+    "email": "AAlmeida1337mitinho@email.com",
+    "password": "user123"
+}
+
+### List available pets - public
+GET {{baseUrl}}/pets/available
+
+### Create user - public
+# @name createUser
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+    "name": "Usuario Teste",
+    "email": "usuario.teste.{{$timestamp}}@email.com",
+    "password": "teste123",
+    "phone": "54999999999",
+    "role": "adopter"
+}
+
+### List users - admin
+GET {{baseUrl}}/users
+Authorization: Bearer {{loginAdmin.response.body.$.token}}
+
+### Get user by id - admin
+GET {{baseUrl}}/users/1
+Authorization: Bearer {{loginAdmin.response.body.$.token}}
+
+### Get own user - adopter
+GET {{baseUrl}}/users/2
+Authorization: Bearer {{loginAdopter.response.body.$.token}}
+
+### Update own user - adopter
+PUT {{baseUrl}}/users/2
+Authorization: Bearer {{loginAdopter.response.body.$.token}}
+Content-Type: application/json
+
+{
+    "phone": "54888888888"
+}
+
+### Delete created user - admin
+DELETE {{baseUrl}}/users/{{createUser.response.body.$.id}}
+Authorization: Bearer {{loginAdmin.response.body.$.token}}
+
+### List pets - admin
+GET {{baseUrl}}/pets
+Authorization: Bearer {{loginAdmin.response.body.$.token}}
+
+### Get pet by id - admin
+GET {{baseUrl}}/pets/1
+Authorization: Bearer {{loginAdmin.response.body.$.token}}
+
+### Create pet for update/delete tests - admin
+# @name createPet
+POST {{baseUrl}}/pets
+Authorization: Bearer {{loginAdmin.response.body.$.token}}
+Content-Type: application/json
+
+{
+    "name": "Pet Teste",
+    "age": 3,
+    "species": "dog",
+    "size": "medium",
+    "description": "Pet criado para testes REST Client"
+}
+
+### Update pet - admin
+PUT {{baseUrl}}/pets/{{createPet.response.body.$.id}}
+Authorization: Bearer {{loginAdmin.response.body.$.token}}
+Content-Type: application/json
+
+{
+    "name": "Pet Teste Atualizado",
+    "age": 4,
+    "species": "dog",
+    "size": "large",
+    "status": "available",
+    "description": "Pet atualizado para testes REST Client"
+}
+
+### Delete available pet - admin
+DELETE {{baseUrl}}/pets/{{createPet.response.body.$.id}}
+Authorization: Bearer {{loginAdmin.response.body.$.token}}
+
+### Create pet for adoption - admin
+# @name createPetForAdoption
+POST {{baseUrl}}/pets
+Authorization: Bearer {{loginAdmin.response.body.$.token}}
+Content-Type: application/json
+
+{
+    "name": "Pet Para Adocao",
+    "age": 1,
+    "species": "cat",
+    "size": "small",
+    "description": "Pet criado para testar adocao"
+}
+
+### Create adoption - adopter
+# @name createAdoption
+POST {{baseUrl}}/adoptions
+Authorization: Bearer {{loginAdopter.response.body.$.token}}
+Content-Type: application/json
+
+{
+    "pet_id": {{createPetForAdoption.response.body.$.id}}
+}
+
+### List adoptions - admin
+GET {{baseUrl}}/adoptions
+Authorization: Bearer {{loginAdmin.response.body.$.token}}
